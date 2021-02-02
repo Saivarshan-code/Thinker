@@ -1,0 +1,18 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Update</h1>
+
+<form method="POST" enctype="multipart/form-data">
+  {{ error }}
+  {% csrf_token %}
+
+  {{ form.as_p }}
+
+  {{ question.as_p }}
+  <button class="btn btn-warning" href="{% url 'question:update_question' question.id %}" type="submit">Update</button>
+</form>
+
+
+{% endblock %}

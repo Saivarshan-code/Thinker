@@ -1,0 +1,18 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Add your answer below</h1>
+
+
+<form method="POST" enctype="multipart/form-data">
+  {{ error }}
+  {% csrf_token %}
+
+  {{ form.as_p }}
+  <button class="btn btn-primary" href="{% url 'question:new_comment' question_pk %}" type="submit">Answer</button>
+</form>
+<br>
+<a class="btn btn-secondary" role="button" href="{% url 'question:viewquestion' question_pk %}">Cancel</a>
+
+{% endblock %}

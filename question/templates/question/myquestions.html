@@ -1,0 +1,59 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+
+<style media="screen">
+.new_question_button{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align:center;
+}
+
+.new_question_button:hover{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+.link:hover{
+  text-decoration: none;
+}
+
+</style>
+
+<h1 style="font-family: 'Roboto', sans-serif;">Your questions</h1>
+<a role="button" class="new_question_button" href="{% url 'question:new_question' %}">+Ask your question</a><br>
+  {% for question in questions %}
+    <a class="link" href="{% url 'question:viewquestion' question.id %}"><h3>{{ question.title }}</h3></a>
+
+    <p>{{ question.date|date:"D d M Y" }}</p>
+    <p>{{ question.description|truncatechars:150 }}</p>
+  {% endfor %}
+
+  {% if questions.count == 0 and request.user.is_authenticated %}
+    <p>You are yet to ask your question</p>
+
+  {% elif not request.user.is_authenticated %}
+  <div style="text-align:center" class="jumbotron">
+    <p>Please login or signup to ask or view your questions</p>
+  </div>
+
+
+
+{% endif %}
+
+
+
+
+{% endblock %}

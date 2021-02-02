@@ -1,0 +1,44 @@
+/* body{
+  background-image: url(https://img.freepik.com/free-vector/abstract-hexagonal-white-background-design_1017-17583.jpg?size=626&ext=jpg);
+  background-size: cover;
+} */
+
+.topnav{
+  background-color: #b2b2d1;
+}
+
+.new_question_button{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align:center;
+}
+
+.new_question_button:hover{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+#up_de_link,
+#up_de_link:active{
+  text-decoration: none;
+  color: white;
+}
+
+
+.title,
+.title:hover{
+  text-decoration: none;
+}

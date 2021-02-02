@@ -1,0 +1,23 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Update</h1>
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <h2>Are you sure you want to delete: {{ question.title}} </h2>
+
+  <button class="btn btn-danger" href="{% url 'question:delete_question' question.id %}" type="submit">delete</button>
+</form>
+
+
+  <br>
+  <a role="button" class="btn btn-success up_de_link" href="{% url 'index' %}">Cancel</a>
+
+
+
+
+
+
+{% endblock %}

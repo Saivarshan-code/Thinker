@@ -1,0 +1,202 @@
+{% extends "question/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<style media="screen">
+html{
+  font-size: 16px;
+  background-image: url(https://cdn.shopify.com/s/files/1/0533/2089/files/5-websites-to-download-free-subtle-textures-subtle.jpg?5724472906039650661);
+}
+
+
+
+#date_in_detailed_question{
+  font-size: 0.8rem;
+}
+
+.detailed_question{
+  font-size: 1rem;
+}
+
+.up_de_link,
+.up_de_link:active{
+  text-decoration: none;
+  color: white;
+}
+
+
+.up_de_link:hover{
+  text-decoration: none;
+  color: white;
+}
+
+.view_question_question{
+  border: solid;
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 35px;
+  border-color: #b6d9d1;
+}
+
+#username{
+  font-size: 1.3rem;
+}
+
+.view_comment_question{
+    border: solid;
+    border-radius: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 35px;
+    border-color: #b6d9d1;
+}
+
+#number_of_views{
+  font-size: 0.8rem;
+}
+
+
+.triangle_top{
+  width:0;
+  height:0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 23px solid #555;
+}
+
+.triangle_bottom{
+  width:0;
+  height:0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-top: 23px solid #555;
+}
+
+#comment{
+  font-weight:40px;
+  font-size:44px;
+}
+/*
+.upvoting_and_downvoting{
+  background-color:#57d9ab;
+  padding-left: 10px;
+  padding-bottom:10px;
+} */
+
+</style>
+  <br>
+  {{error}}
+  <div class="view_question_question">
+    <h2>{{ question.title }}</h2>
+
+    <p id="username">   -{{ question.username }}</p>
+    <p id="date_in_detailed_question"> Date Asked: {{ question.date}}</p>
+
+    <h5>category: {{ question.category }}</h5>
+
+    <p style="font-family: 'Raleway', sans-serif;">description:{{ question.description }}</p>
+
+
+    {% if question.image1 %}
+    <a target="_blank" href="{{ question.image1.url }}"><img width="240px" height="135px" src="{{ question.image1.url }}" alt="Image"></a><br><br>
+    {% endif %}
+
+
+    {% if question.image2 %}
+    <a target="_blank" href="{{ question.image2.url }}"><img width="240px" height="135px" src="{{ question.image2.url }}" alt="Sorry this image has some problems"></a><br><br>
+    {% endif %}
+
+    {% if question.image3 %}
+    <a target="_blank" href="{{ question.image3.url }}"><img width="240px" height="135px" src="{{ question.image3.url }}" alt="Sorry this image has some problems"></a>
+    {% endif %}
+
+    {% if question.file %}
+    <p>File:<a target="_blank" href="{{ question.file.url }}">{{ question.file.url }}</a></p>
+    {% endif %}
+
+
+    <p style="font-weight:40px;font-size:22px;font-family: 'Noto Sans JP', sans-serif" class="detailed_question">{{ question.question|linebreaksbr }}</p>
+    {% if question.views == 1 %}
+      <p id="number_of_views" style="font-size:0.8rem">{{ question.user_viewed.count }} view</p>
+    {% else %}
+      <p id="number_of_views" style="font-size:0.8rem">{{ question.user_viewed.count }} views</p>
+    {% endif %}
+    <!-- <form action="{% url 'question:upvote' question.id %}" method="post"> -->
+
+    <form action="{% url 'question:upvote' question.id %}" method="post">
+      {% csrf_token %}
+      <button title="Click to like" class="btn btn-white up_de_link" style="color:#9e2118;background-color:#eddbda" name="question_upvote" value="{{question.id}}">({{ question.upvote.count }})Like</button>
+    </form>
+    <br>
+    <a href="{% url 'question:report' question.id %}">report</a>
+    <p aria-disabled="true" style="font-size:0.7rem">*Please report if the question/block contains any abusive content</p>
+    <br>
+
+    {% if update_and_delete == 100 or user.is_superuser %}
+      <a class="btn btn-warning up_de_link" href="{% url 'question:update_question' question.id %}">Update</a>
+      <br>
+      <br>
+      <a role="button" class="btn btn-danger up_de_link" href="{% url 'question:delete_question' question.id %}">Delete</a>
+    {% endif %}
+
+
+  </div>
+  <hr>
+
+  <a href="{% url 'question:new_comment' question.id %}"><textarea name="comment_textarea" rows="2" cols="60" placeholder="answer"></textarea></a>
+  <br>
+  <br>
+
+
+  {% if comments.count >= 1 %}
+    {% for comment in comments %}
+
+      <div class="view_comment_question">
+        <div class="upvoting_and_downvoting">
+          <a class="triangle_top" title="click to upvote!" href="{% url 'question:upvote_comment' question.id comment.id %}"></a><br><br>
+          <p>   {{comment.comment_votes}} votes </p><br>
+          <a class="triangle_bottom" title="click to downvote" href="{% url 'question:downvote_comment' question.id comment.id %}"></a>
+        </div>
+
+        <p id="date_in_detailed_question">answered on: {{ comment.comment_date }}</p>
+
+        <h4>{{ comment.username }}</h4>
+
+        {% if comment.image1 %}
+          <br>
+          <a target="_blank" href="{{ comment.image1.url }}"><img src="{{ comment.image1.url }}" width="240px" height="135px" alt="Image"></a>
+        {% endif %}
+
+        {% if comment.image2 %}
+          <br>
+          <br>
+          <a target="_blank" href="{{ comment.image2.url }}"><img src="{{ comment.image2.url }}" width="240px" height="135px" alt="Sorry this image has some problems"></a>
+        {% endif %}
+
+        {% if comment.file %}
+        <br>
+        <a href="{{ comment.file.url }}">{{ comment.file.url }}</a>
+        {% endif %}
+
+        <p style="font-weight:40px;font-size:22px" id="comment">{{ comment|linebreaksbr }}</p>
+
+        <br>
+        <a href="{% url 'question:report_comment' question.id comment.id %}">report</a>
+        <p aria-disabled="true" style="font-size:0.7rem">*Please report if the question/block contains any abusive content</p>
+        <br>
+
+      </div>
+      {% endfor %}
+
+
+  {% else %}
+    <div class="view_question_question">
+      <p>Be the first to answer!</p>
+  {% endif %}
+    </div>
+
+{% endblock %}
