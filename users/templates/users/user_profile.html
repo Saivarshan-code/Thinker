@@ -1,0 +1,31 @@
+{% extends "users/base.html" %}
+{% block content %}
+<br>
+
+<div class="userprofile_information">
+  <h2>Username:{{ username.user }}</h2>
+
+  <div class="school">
+    <h4>Std:{{ username.std }}</h4>
+  </div>
+  <div class="email">
+    {% if username.email %}
+    <p>{{ username.user.email }}</p>
+    {% endif %}
+  </div>
+</div>
+<hr>
+<div class="userprofile_questions">
+  <p style="font-size:20px;font-weight:30px">{{ username.user }}'s questions </p>
+  {% for question in questions %}
+  <a class="title" href="{% url 'question:viewquestion' question.id %}"><h3>{{ question.title }}</h3></a>
+  <p>{{ question.date|date:"D d M Y" }}</p>
+  <p>{{ question.description|truncatechars:150 }}</p>
+  {% empty %}
+  <div class="jumbotron">
+    <p>The user did not ask any questions</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

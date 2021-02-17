@@ -1,0 +1,17 @@
+{% extends "users/base.html" %}
+{% load static %}
+{% block content %}
+<form method="get">
+  <br>
+    {{ filter.form.as_p }}
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+  <ul>
+    {% for filter_question in filter.qs %}
+    <a class="title" href="{% url 'question:viewquestion' filter_question.id %}"><h3>{{ filter_question.title }}</h3></a>
+    <p>{{ filter_question.date|date:"D d M Y" }}</p>
+    <p>{{ filter_question.description|truncatechars:150 }}</p>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
