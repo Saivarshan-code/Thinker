@@ -7,13 +7,30 @@
 .title:hover{
   text-decoration: none;
 }
+#id_title{
+  width: 400px;
+}
 </style>
 
 <h1 style="font-family: 'Roboto', sans-serif;">Latest questions</h1>
-<a role="button" class="new_question_button" href="{% url 'question:new_question' %}">+Ask your question</a>
-{% for question in questions %}
-  <a class="title" href="{% url 'question:viewquestion' question.id %}"><h3>{{ question.title }}</h3></a>
-  <p>{{ question.date|date:"D d M Y" }}</p>
-  <p>{{ question.description|truncatechars:150 }}</p>
-{% endfor %}
+<a role="button" class="new_question_button" href="{% url 'question:new_question' %}">+Ask your question</a> <br>
+<a role="button" style="background-color:#9fbf71;" class="new_question_button" href="{% url 'question:filter' %}">Advanced Search</a>
+<form method="get">
+  <br>
+    {{ filter.form.as_p }}
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<form method="post" action="{% url 'index' %}">
+  {% csrf_token %}
+  <br>
+    <button type="submit" class="btn btn-secondary">Cancel</button>
+</form>
+
+  <ul>
+    {% for filter_question in filter.qs %}
+    <a class="title" href="{% url 'question:viewquestion' filter_question.id %}"><h3>{{ filter_question.title }}</h3></a>
+    <p>{{ filter_question.date|date:"D d M Y" }}</p>
+    <p>{{ filter_question.description|truncatechars:150 }}</p>
+    {% endfor %}
+  </ul>
 {% endblock %}

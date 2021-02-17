@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/question_page.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Raleway:wght@600&family=Roboto:wght@500&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
-
+    <link rel="icon" type="image/png" href="{% static "Thinker_logo.png" %}">
 
     <style media="screen">
     body{
@@ -22,7 +22,7 @@
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 
       <a class="navbar-brand" href="{% url 'index' %}">Thinker</a>
@@ -38,12 +38,12 @@
           </li>
           <form class="form-inline my-2 my-lg-0">
             {% if user.is_authenticated %}
-            <li class="nav-item form-inline mt-2 mt-md-0">
-              <a role="button" class="form-control mr-sm-2 btn-danger" href="{% url 'logout' %}">LogOut</a>
+            <li class="nav-item">
+              <a role="button" class="form-control mr-sm-2 btn btn-danger" href="{% url 'logout' %}">LogOut</a>
             </li>
           {% else %}
             <li class="nav-item">
-              <a role="button" class="form-control mr-sm-2 btn btn-danger" href="{% url 'signup' %}">SignUp</a>
+              <a class="form-control mr-sm-2 btn btn-danger" href="{% url 'signup' %}">SignUp</a>
             </li>
             <li class="nav-item">
               <a role="button" class="form-control mr-sm-2 btn btn-danger" href="{% url 'login' %}">Login</a>

@@ -80,6 +80,10 @@ html{
   font-weight:40px;
   font-size:44px;
 }
+
+#username{
+  font-size: 25px;
+}
 /*
 .upvoting_and_downvoting{
   background-color:#57d9ab;
@@ -93,7 +97,7 @@ html{
   <div class="view_question_question">
     <h2>{{ question.title }}</h2>
 
-    <p id="username">   -{{ question.username }}</p>
+    <p style="font-size: 23px;">Asked by: <a id="username" style="text-decoration:none;" href="{% url 'user_profile_page' question.username  %}">{{ question.username }}</p></a>
     <p id="date_in_detailed_question"> Date Asked: {{ question.date}}</p>
 
     <h5>category: {{ question.category }}</h5>
@@ -115,7 +119,7 @@ html{
     {% endif %}
 
     {% if question.file %}
-    <p>File:<a target="_blank" href="{{ question.file.url }}">{{ question.file.url }}</a></p>
+    <p>File:<a style="word-wrap: break-word;" target="_blank" href="{{ question.file.url }}">{{ question.file.url }}</a></p>
     {% endif %}
 
 
@@ -179,7 +183,7 @@ html{
 
         {% if comment.file %}
         <br>
-        <a href="{{ comment.file.url }}">{{ comment.file.url }}</a>
+        <p>File:<a style="word-wrap: break-word;" target="_blank" href="{{ comment.file.url }}">{{ comment.file.url }}</a></p>
         {% endif %}
 
         <p style="font-weight:40px;font-size:22px" id="comment">{{ comment|linebreaksbr }}</p>

@@ -6,6 +6,9 @@ from users.models import userprofile
 from django.template import Context
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from question.filters import QuestionFilter
+from django.views.generic import ListView
+
 # Create your views here.
 
 @login_required
@@ -196,18 +199,8 @@ def myquestions(request):
         return render(request,'question/myquestions.html')
 
 
-
-
-
-# def bookmark_question(request):
-#     try:
-#         username = userprofile.objects.get(user=request.user)
-#     except:
-#         pass
-#     if request.user.is_authenticated:
-#         bookmark_questions = question.objects.filter(username=username).order_by('-bookmark_question')
-#
-#         return render(request,'question/bookmark_questions.html',{'bookmark_questions':bookmark_questions,
-#                                                          'username':username })
-#     else:
-#         return render(request,'question/bookmark_questions.html')
+def question_list(request):
+    question_list = question.objects.all()
+    # categories = (('maths','maths'), ('biology','biology'), ('physics','physics'), ('chemistry','chemistry'), ('history','history'), ('geography','geography'), ('democratic politics','democratic politics'), ('economics','economics'), ('english','english'), ('Computer science','Computer science'), ('Tamil','Tamil'), ('Hindi','Hindi'), ('General','General'))
+    question_filter = QuestionFilter(request.GET, queryset = question_list)
+    return render(request, 'question/filter_questions.html', {'filter' : question_filter})

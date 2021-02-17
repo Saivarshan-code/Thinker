@@ -5,10 +5,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 # from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-
-
-
-
 app_name = 'question'
 
 urlpatterns = [
@@ -23,6 +19,7 @@ urlpatterns = [
     path('viewquestion/<int:question_pk>/<int:comment_pk>/downvote_comment/',views.downvote_comment,name="downvote_comment"),
     path('viewquestion/<int:question_pk>/<int:comment_pk>/report_comment/',views.report_comment,name="report_comment"),
     path('myquestions/',views.myquestions,name="myquestions"),
+    path('filter/', views.question_list, name='filter'),
     # path('viewquestion/<int:question_pk>/bookmark_question/',views.bookmark_question,name="bookmark_question"),
     # path('bookmarked_question/',views.bookmarked_question,name="bookmarked_questions"),
     ]

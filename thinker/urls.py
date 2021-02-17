@@ -29,6 +29,7 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(),name='login'),
     path('loggedout/',views.loggedout,name='loggingout'),
     path('loggingin/',views.loggingin,name='loggingin'),
+    path('user/<str:username>/',views.userprofilepage,name="user_profile_page"),
     path('question/',include('question.urls')),
 ]
 
