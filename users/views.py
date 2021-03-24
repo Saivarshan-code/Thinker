@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
-from django.views.generic import CreateView
+from django.views.generic import CreateView,UpdateView
 from .models import userprofile
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -13,6 +13,8 @@ from django.views.generic import ListView
 from question.filters import QuestionFilter,SearchFilter
 from django.http import Http404
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 
@@ -76,3 +78,7 @@ def userprofilepage(request,username):
                                                          'username':username })
     except:
         raise Http404
+
+class Update_userprofile(UpdateView,LoginRequiredMixin):
+    model = userprofile
+    fields = ['std','description','show_your_email_to_others']

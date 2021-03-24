@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
-from .forms import questionform,YourForm,CommentForm
+from .forms import questionform,YourForm,CommentForm,SearchForm
 from .models import question,comment
 from users.models import userprofile
 from django.template import Context
@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from question.filters import QuestionFilter
 from django.views.generic import ListView
+from django.db.models import Q
 
 # Create your views here.
 
@@ -31,11 +32,30 @@ def new_question(request):
 
 def viewquestion(request,question_pk):
     detailed_question = get_object_or_404(question, pk=question_pk)
+    answer_box = SearchForm
+    def get_ip(request):
+        adress = request.META.get('HTTP_X_FORWARDED_FOR')
+        if adress:
+            ip = adress.split(',')[-1].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+    ip = get_ip(request)
+
+    if ip in detailed_question.user_ip:
+        print("user exists")
+    else:
+        detailed_question.user_ip += ',' + ip
+        detailed_question.save()
+
+
+    no_of_views = detailed_question.user_ip.split(',')
+    # no_of_views = len(no_of_views)
+    # print(len(no_of_views))
+    # print("user is",no_of_views)
+
     try:
         username = userprofile.objects.get(user=request.user)
-        if username not in detailed_question.user_viewed.all():
-            detailed_question.user_viewed.add(username)
-            detailed_question.views += 1
     except:
         nothing = True
 
@@ -54,12 +74,16 @@ def viewquestion(request,question_pk):
         return render(request,'question/view_question.html',
                       {'question':detailed_question,
                        'update_and_delete': 100,
-                       'comments':comments})
+                       'answer_box':answer_box,
+                       'comments':comments,
+                       'number_of_views':len(no_of_views)})
     else:
         update_and_delete = 10
         return render(request,'question/view_question.html',{'question':detailed_question,
                                                              'update_and_delete': 10,
-                                                             'comments':comments })
+                                                             'answer_box':answer_box,
+                                                             'comments':comments,
+                                                             'number_of_views':len(no_of_views) })
 
 
 

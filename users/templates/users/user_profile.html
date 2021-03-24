@@ -3,16 +3,34 @@
 <br>
 
 <div class="userprofile_information">
-  <h2>Username:{{ username.user }}</h2>
+  <div class="username">
+    <h2>Username:{{ username.user }}</h2>
+  </div>
 
   <div class="school">
     <h4>Std:{{ username.std }}</h4>
   </div>
   <div class="email">
-    {% if username.email %}
-    <p>{{ username.user.email }}</p>
+    {% if username.email_others == False %}
+    <h4>Email: {{ username.user.email }}</h4>
+    {% endif %}
+    </div>
+  <div class="date_joined">
+    {% if username.user.date_joined %}
+    <h4>Date joined : {{ username.user.date_joined|date:'M d Y' }}</h4>
     {% endif %}
   </div>
+  <div class="last_login">
+    {% if username.user.last_login %}
+    <h4>Last login: {{ username.user.last_login|date:'M d Y' }}</h4>
+    {% endif %}
+  </div>
+  <div class="update_profile">
+    {% if username.user == request.user %}
+      <a role="button" href="{% url 'update_userprofile' username.id %}">Upadate profile</a>
+    {% endif %}
+  </div>
+
 </div>
 <hr>
 <div class="userprofile_questions">

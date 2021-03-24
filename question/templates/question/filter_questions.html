@@ -1,9 +1,10 @@
 {% extends "users/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 <form method="get">
   <br>
-    {{ filter.form.as_p }}
+    {{ filter.form|crispy }}
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
   <ul>

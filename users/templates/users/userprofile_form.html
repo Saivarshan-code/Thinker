@@ -1,0 +1,13 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h3>Update profile info</h3>
+<form class="" action="index.html" method="post">
+  <p>
+    {{ form|crispy }}
+  </p>
+  <button type="submit" class="btn btn-success">Update</button>
+</form>
+
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'question',
     'django_filters',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ LOGIN_REDIRECT_URL = 'loggingin'
 LOGOUT_REDIRECT_URL = 'loggingout'
 
 LOGIN_URL = '/login/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

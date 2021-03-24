@@ -1,4 +1,5 @@
 {% extends "question/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 
@@ -124,10 +125,10 @@ html{
 
 
     <p style="font-weight:40px;font-size:22px;font-family: 'Noto Sans JP', sans-serif" class="detailed_question">{{ question.question|linebreaksbr }}</p>
-    {% if question.views == 1 %}
-      <p id="number_of_views" style="font-size:0.8rem">{{ question.user_viewed.count }} view</p>
+    {% if question.number_of_views == 1 %}
+      <p id="number_of_views" style="font-size:0.8rem">{{ number_of_views }} view</p>
     {% else %}
-      <p id="number_of_views" style="font-size:0.8rem">{{ question.user_viewed.count }} views</p>
+      <p id="number_of_views" style="font-size:0.8rem">{{ number_of_views }} views</p>
     {% endif %}
     <!-- <form action="{% url 'question:upvote' question.id %}" method="post"> -->
 
@@ -151,7 +152,7 @@ html{
   </div>
   <hr>
 
-  <a href="{% url 'question:new_comment' question.id %}"><textarea name="comment_textarea" rows="2" cols="60" placeholder="answer"></textarea></a>
+  <a href="{% url 'question:new_comment' question.id %}">{{ answer_box|crispy }}</a>
   <br>
   <br>
 

@@ -32,6 +32,9 @@ class YourForm(forms.ModelForm):
 
 
 
+
+
+
 class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
@@ -40,3 +43,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = comment
         fields = ('comment','image1','image2','file')
+
+class SearchForm(forms.Form):
+    answer = forms.CharField(widget=forms.Textarea(attrs={"rows":5,"cols":20,'label':'Give your answer'}))

@@ -23,6 +23,7 @@ class question(models.Model):
     reported_users = models.ManyToManyField(userprofile,blank=True,related_name="report_question")
     report = models.PositiveIntegerField(default=0)
     bookmark_question = models.ManyToManyField(userprofile,blank=True,related_name="bookmark_question")
+    user_ip = models.TextField(default='first_user')
 
 
 

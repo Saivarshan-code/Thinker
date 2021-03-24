@@ -8,6 +8,7 @@ dj-database-url = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 django-filter = "*"
+django-hitcount = "*"
 
 [dev-packages]
 
