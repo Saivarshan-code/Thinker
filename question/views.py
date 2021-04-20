@@ -8,14 +8,13 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from question.filters import QuestionFilter
 from django.views.generic import ListView
-from django.db.models import Q
 
 # Create your views here.
 
 @login_required
 def new_question(request):
     form = YourForm()
-
+#There is a bug
     if request.method == 'POST':
         form = YourForm(request.POST,request.FILES)
         username = userprofile.objects.get(user=request.user)
@@ -43,21 +42,17 @@ def viewquestion(request,question_pk):
     ip = get_ip(request)
 
     if ip in detailed_question.user_ip:
-        print("user exists")
+        pass
     else:
         detailed_question.user_ip += ',' + ip
         detailed_question.save()
 
-
     no_of_views = detailed_question.user_ip.split(',')
-    # no_of_views = len(no_of_views)
-    # print(len(no_of_views))
-    # print("user is",no_of_views)
 
     try:
         username = userprofile.objects.get(user=request.user)
     except:
-        nothing = True
+        username = None
 
     try:
         comments = comment.objects.filter(related_question=detailed_question).order_by('-comment_votes')
@@ -69,22 +64,13 @@ def viewquestion(request,question_pk):
         return redirect('index')
 
 
-    if str(request.user) == str(detailed_question.username):
-        update_and_delete = 100
-        return render(request,'question/view_question.html',
+
+    return render(request,'question/view_question.html',
                       {'question':detailed_question,
-                       'update_and_delete': 100,
                        'answer_box':answer_box,
+                       'username':username,
                        'comments':comments,
                        'number_of_views':len(no_of_views)})
-    else:
-        update_and_delete = 10
-        return render(request,'question/view_question.html',{'question':detailed_question,
-                                                             'update_and_delete': 10,
-                                                             'answer_box':answer_box,
-                                                             'comments':comments,
-                                                             'number_of_views':len(no_of_views) })
-
 
 
 @login_required
@@ -105,8 +91,8 @@ def deletequestion(request,question_pk):
     if request.method == 'POST':
         detailed_question.delete()
         return redirect('index')
-
-    return render(request,'question/confirm_delete.html',{'question':questions})
+    else:
+        return render(request,'question/confirm_delete.html',{'question':questions})
 
 
 @login_required
@@ -144,8 +130,10 @@ def upvote(request,question_pk):
     username = userprofile.objects.get(user=request.user)
     if username in detailed_question.upvote.all():
         detailed_question.upvote.remove(username)
+        liked = 0
     else:
         detailed_question.upvote.add(username)
+        liked = 1
     return HttpResponseRedirect(reverse('question:viewquestion',args=[question_pk]))
 
 @login_required
@@ -215,7 +203,7 @@ def myquestions(request):
     except:
         pass
     if request.user.is_authenticated:
-        my_questions = question.objects.filter(username=username).order_by('-upvote')
+        my_questions = question.objects.filter(username=username).order_by('-date')
 
         return render(request,'question/myquestions.html',{'questions':my_questions,
                                                          'username':username })
@@ -225,6 +213,5 @@ def myquestions(request):
 
 def question_list(request):
     question_list = question.objects.all()
-    # categories = (('maths','maths'), ('biology','biology'), ('physics','physics'), ('chemistry','chemistry'), ('history','history'), ('geography','geography'), ('democratic politics','democratic politics'), ('economics','economics'), ('english','english'), ('Computer science','Computer science'), ('Tamil','Tamil'), ('Hindi','Hindi'), ('General','General'))
     question_filter = QuestionFilter(request.GET, queryset = question_list)
     return render(request, 'question/filter_questions.html', {'filter' : question_filter})

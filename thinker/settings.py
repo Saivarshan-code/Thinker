@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'users',
     'question',
     'django_filters',
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'thinker.urls'
@@ -127,9 +129,18 @@ STATIC_ROOT = Path.joinpath(BASE_DIR,'static')
 MEDIA_ROOT = Path.joinpath(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'loggingin'
-LOGOUT_REDIRECT_URL = 'loggingout'
+LOGIN_REDIRECT_URL = 'user:loggingin'
+LOGOUT_REDIRECT_URL = 'user:loggingout'
 
 LOGIN_URL = '/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+INTERNAL_IPS = ['127.0.0.1']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'saivarshankr@gmail.com'
+EMAIL_HOST_PASSWORD = 'pmiyiihhzzvtmdee'

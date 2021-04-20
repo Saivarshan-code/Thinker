@@ -1,4 +1,5 @@
 {% extends "users/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 {% if signed_up %}
@@ -11,9 +12,23 @@
 
 <form method="post">
   {% csrf_token %}
-  {{ user_form.as_p }}
-  {{ user_profile_form.as_p }}
+  {% if messages %}
+
+      {% for message in messages %}
+      <div class="alert alert-info">
+        {{ message }}
+
+      </div>
+      <br><br>
+  {% endfor %}
+
+  {% endif %}
+  {{ user_form|crispy }}
+  {{ user_profile_form|crispy }}
   <button class="btn btn-primary" type="submit" name="button">SignUp</button>
 </form>
+<div class="login">
+  Already have a account? <a style="text-decoration:none;" href="{% url 'user:login' %}">Login here</a>
+</div>
 {% endif %}
 {% endblock %}

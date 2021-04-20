@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{% static 'custom.css' %}">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Raleway:wght@600&family=Roboto:wght@500&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="{% static "Thinker_logo.png" %}">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
   <style media="screen">
@@ -20,14 +21,14 @@
       background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjK8RgPhUofA_D-3ioqeXlOn-fr3ISsH4zng&usqp=CAU);
       background-size: cover;
     }
-    .topnav{
+    /* .topnav{
       background-color: #5b3485;
-    }
+    } */
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark topnav ">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary topnav ">
 
 
     <a class="navbar-brand" href="{% url 'index' %}">Thinker</a>
@@ -36,28 +37,32 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="{% url 'index' %}">Home </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'question:myquestions' %}">My questions</a>
         </li>
-        <form class="form-inline my-2 my-lg-0">
-          {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a role="button" class=" form-control mr-sm-2btn btn-danger" href="{% url 'logout' %}">LogOut</a>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a role="button" class="form-control mr-sm-2 btn btn-danger" href="{% url 'signup' %}">SignUp</a>
-            </li>
-            <li class="nav-item">
-              <a role="button" class="form-control mr-sm-2 btn btn-danger" href="{% url 'login' %}">Login</a>
-            </li>
-          {% endif %}
-        </form>
-      </ul>
+        </ul>
+        <ul class="navbar-nav">
+          <form class="form-inline my-2 my-lg-0">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a role="button" class="btn btn-simple" href="{% url 'user:user_profile_page' user %}"><i class="fa fa-user-circle" style="font-size:30px;color:black"></i></a>
+              </li>
+
+            {% else %}
+              <li class="nav-item">
+                <a class="form-control mr-sm-2 btn btn-danger" href="{% url 'user:signup' %}">SignUp</a>
+              </li>
+              <li class="nav-item">
+                <a class="form-control mr-sm-2 btn btn-danger" href="{% url 'user:login' %}">Login</a>
+              </li>
+
+            {% endif %}
+          </form>
+          </ul>
     </div>
   </nav>
 

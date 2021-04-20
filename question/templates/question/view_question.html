@@ -98,7 +98,7 @@ html{
   <div class="view_question_question">
     <h2>{{ question.title }}</h2>
 
-    <p style="font-size: 23px;">Asked by: <a id="username" style="text-decoration:none;" href="{% url 'user_profile_page' question.username  %}">{{ question.username }}</p></a>
+    <p style="font-size: 23px;">Asked by: <a id="username" style="text-decoration:none;" href="{% url 'user:user_profile_page' question.username %}">{{ question.username }}</p></a>
     <p id="date_in_detailed_question"> Date Asked: {{ question.date}}</p>
 
     <h5>category: {{ question.category }}</h5>
@@ -124,7 +124,7 @@ html{
     {% endif %}
 
 
-    <p style="font-weight:40px;font-size:22px;font-family: 'Noto Sans JP', sans-serif" class="detailed_question">{{ question.question|linebreaksbr }}</p>
+    <p style="font-weight:40px;font-size:22px;font-family: 'Noto Sans JP', sans-serif" class="detailed_question">{{ question.question|safe|linebreaksbr }}</p>
     {% if question.number_of_views == 1 %}
       <p id="number_of_views" style="font-size:0.8rem">{{ number_of_views }} view</p>
     {% else %}
@@ -134,18 +134,24 @@ html{
 
     <form action="{% url 'question:upvote' question.id %}" method="post">
       {% csrf_token %}
-      <button title="Click to like" class="btn btn-white up_de_link" style="color:#9e2118;background-color:#eddbda" name="question_upvote" value="{{question.id}}">({{ question.upvote.count }})Like</button>
-    </form>
+      {% if username in question.upvote.all %}
+      <button title="Click to like" class="btn btn-white up_de_link" style="color:#9e2118;background-color:#eddbda" name="question_upvote" value="{{question.id}}">
+        <i class="fa fa-thumbs-up" style="font-size:24px"></i>({{ question.upvote.count }})Liked</button>
+      {% else %}
+        <button title="Click to like" class="btn btn-white up_de_link" style="color:#9e2118;background-color:#eddbda" name="question_upvote" value="{{question.id}}">
+          <i class="fa fa-thumbs-o-up" style="font-size:24px"></i>({{ question.upvote.count }})Like</button>
+      {% endif %}
+          </form>
     <br>
-    <a href="{% url 'question:report' question.id %}">report</a>
+    <a style="text-decoration:none;" href="{% url 'question:report' question.id %}"><i class="fa fa-exclamation-circle"></i>report</a>
     <p aria-disabled="true" style="font-size:0.7rem">*Please report if the question/block contains any abusive content</p>
     <br>
 
-    {% if update_and_delete == 100 or user.is_superuser %}
-      <a class="btn btn-warning up_de_link" href="{% url 'question:update_question' question.id %}">Update</a>
+    {% if username == question.username or user.is_superuser %}
+      <a class="btn btn-warning up_de_link" href="{% url 'question:update_question' question.id %}"><i class="fa fa-edit"></i>Edit</a>
       <br>
       <br>
-      <a role="button" class="btn btn-danger up_de_link" href="{% url 'question:delete_question' question.id %}">Delete</a>
+      <a role="button" class="btn btn-danger up_de_link" href="{% url 'question:delete_question' question.id %}"><i class="fa fa-trash"></i>Delete</a>
     {% endif %}
 
 
@@ -190,7 +196,7 @@ html{
         <p style="font-weight:40px;font-size:22px" id="comment">{{ comment|linebreaksbr }}</p>
 
         <br>
-        <a href="{% url 'question:report_comment' question.id comment.id %}">report</a>
+        <a style="text-decoration:none" href="{% url 'question:report_comment' question.id comment.id %}"><i class="fa fa-exclamation-circle"></i>report</a>
         <p aria-disabled="true" style="font-size:0.7rem">*Please report if the question/block contains any abusive content</p>
         <br>
 

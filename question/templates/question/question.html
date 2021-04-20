@@ -1,7 +1,14 @@
-% extends "question/base.html" %}
+{% extends "question/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+<style media="screen">
+  #ok,#cancel{
+    display: inline-block;
+  }
+</style>
+
 
 <h1>Ask your question down below</h1>
 
@@ -10,15 +17,12 @@
     {{ error }}
     {% csrf_token %}
     <p>{{question|crispy}}</p>
-    <button class="btn btn-primary" href="{% url 'question:new_question' %}" type="submit">Ask</button>
-  </form><br>
-  <form action="{% url 'index' %}" method="post">
-    {% csrf_token %}
-    <button class="btn btn-secondary" href="{% url 'index' %}" type="submit">Cancel</button>
+    <button id="ok" class="btn btn-primary" href="{% url 'question:new_question' %}" type="submit"><span class="fa fa-check-circle"></span></button>
+    <a id="cancel" href="{% url 'index' %}" class="btn btn-secondary"><span class="fa fa-close"></span></a>
   </form>
+  <br>
 
 </div>
-
 
 
 {% endblock %}

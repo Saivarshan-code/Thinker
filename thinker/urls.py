@@ -24,15 +24,16 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
-    path('signup/',views.SignUp,name='signup'),
-    path('logout/',auth_views.LogoutView.as_view(),name='logout'),
-    path('login/',auth_views.LoginView.as_view(),name='login'),
-    path('loggedout/',views.loggedout,name='loggingout'),
-    path('loggingin/',views.loggingin,name='loggingin'),
-    path('user/<str:username>/',views.userprofilepage,name="user_profile_page"),
-    path('user/<int:pk>/update',views.Update_userprofile.as_view(),name='update_userprofile'),
     path('question/',include('question.urls')),
+    path('user/',include('users.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/',include(debug_toolbar.urls))
+    ]+urlpatterns

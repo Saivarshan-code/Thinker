@@ -3,17 +3,72 @@
 {% load static %}
 {% block content %}
 
+
+
+
+<style media="screen">
+.hidden{
+  display: none;
+}
+
+.close-suggestion{
+  float: right;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  background: none;
+  font-size: 1.5rem;
+  top: 1.2rem;
+  right: 2rem;
+}
+
+
+.writing_good_answers{
+  background-color: none;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+</style>
+
 <h1>Add your answer below</h1>
+
+<div class="container writing_good_answers">
+  <br>
+  <button class="close-suggestion">&times;</button>
+    <h4>How to write a good Answer?</h4>
+    <ul>
+      <p>Please be sure to....</p>
+      <li>First write the required answer (in one word or a sentence according to what is asked).</li>
+      <li>
+        Then explain about the answer briefly so that others can understand
+      </li>
+      <br>
+
+      <p>But avoid....</p>
+      <li>Asking for help (you can ask a new question for clarification).</li>
+      <li>Making statement based on opinion</li>
+    </ul>
+</div>
+<br />
 
 
 <form method="POST" enctype="multipart/form-data">
   {{ error }}
   {% csrf_token %}
-
   {{ form|crispy }}
-  <button class="btn btn-primary" href="{% url 'question:new_comment' question_pk %}" type="submit">Answer</button>
+
+
+
+  <button
+    class="btn btn-primary"
+    href="{% url 'question:new_comment' question_pk %}"
+    type="submit">
+    <span class="fa fa-check-circle-o"></span> Answer
+  </button>
 </form>
 <br>
 <a class="btn btn-secondary" role="button" href="{% url 'question:viewquestion' question_pk %}">Cancel</a>
+
+<script src="{% static "js/comment.js" %}" charset="utf-8"></script>
 
 {% endblock %}

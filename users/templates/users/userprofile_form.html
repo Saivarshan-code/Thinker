@@ -2,12 +2,11 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<h3>Update profile info</h3>
-<form class="" action="index.html" method="post">
-  <p>
-    {{ form|crispy }}
-  </p>
-  <button type="submit" class="btn btn-success">Update</button>
+<h3>Edit profile info</h3>
+<form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" class='btn btn-success' value="Edit">
 </form>
 
 {% endblock %}

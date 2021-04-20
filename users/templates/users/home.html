@@ -1,4 +1,5 @@
 {% extends "users/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 
@@ -8,24 +9,67 @@
   text-decoration: none;
 }
 #id_title{
-  width: 400px;
+  width: 300px;
 }
-</style>
 
+#id_title:focus{
+  border: 3px solid lightblue;
+}
+
+#ok,#cancel,#search{
+  display: inline-block;
+}
+
+.topnav{
+  background-color: #5b3485;
+}
+
+.new_question_button{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align:center;
+}
+
+.new_question_button:hover{
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: orange;
+  display: block;
+  height: 30px;
+  width: 150px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+#up_de_link,
+#up_de_link:active{
+  text-decoration: none;
+  color: white;
+}
+
+
+.title,
+.title:hover{
+  text-decoration: none;
+}
+
+</style>
 <h1 style="font-family: 'Roboto', sans-serif;">Latest questions</h1>
 <a role="button" class="new_question_button" href="{% url 'question:new_question' %}">+Ask your question</a> <br>
-<a role="button" style="background-color:#9fbf71;" class="new_question_button" href="{% url 'question:filter' %}">Advanced Search</a>
+<a role="button" style="background-color:#9fbf71;" class="new_question_button" href="{% url 'question:filter' %}">Advanced Search</a><br>
 <form method="get">
-  <br>
-    {{ filter.form.as_p }}
-    <button type="submit" class="btn btn-primary">Search</button>
+    <p id="search">{{ filter.form }}</p>
+    <button id="ok" type="submit" class="btn btn-primary"> <span class="fa fa-search"></span></button>
+    <a id="cancel" class="btn btn-secondary" href="{% url 'index' %}"><i class="fa fa-remove"></i></a>
 </form>
-<form method="post" action="{% url 'index' %}">
-  {% csrf_token %}
-  <br>
-    <button type="submit" class="btn btn-secondary">Cancel</button>
-</form>
-
+<br>
   <ul>
     {% for filter_question in filter.qs %}
     <a class="title" href="{% url 'question:viewquestion' filter_question.id %}"><h3>{{ filter_question.title }}</h3></a>

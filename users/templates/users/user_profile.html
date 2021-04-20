@@ -10,24 +10,38 @@
   <div class="school">
     <h4>Std:{{ username.std }}</h4>
   </div>
+
   <div class="email">
-    {% if username.email_others == False %}
-    <h4>Email: {{ username.user.email }}</h4>
+    {% if username.showing_email == True %}
+      <h4>Email: {{ username.user.email }}</h4>
     {% endif %}
-    </div>
+  </div>
+
+
+
   <div class="date_joined">
     {% if username.user.date_joined %}
-    <h4>Date joined : {{ username.user.date_joined|date:'M d Y' }}</h4>
+    <h5>Date joined : {{ username.user.date_joined|date:'M d Y' }}</h5>
     {% endif %}
   </div>
+
   <div class="last_login">
     {% if username.user.last_login %}
-    <h4>Last login: {{ username.user.last_login|date:'M d Y' }}</h4>
+    <h5>Last login: {{ username.user.last_login|date:'M d Y' }}</h5>
     {% endif %}
   </div>
+
   <div class="update_profile">
     {% if username.user == request.user %}
-      <a role="button" href="{% url 'update_userprofile' username.id %}">Upadate profile</a>
+      <a class="title btn btn-simple" style="background-color:gold"  role="button" href="{% url 'user:update_userprofile' pk=username.id %}">Update profile</a>
+      <a class="btn btn-danger" href="{% url 'user:logout' %}">Logout</a>
+    {% endif %}
+  </div>
+
+  <div class="description">
+    {% if username.description %}
+    <br><br>
+      <h4>{{ username.description|linebreaks }}</h4>
     {% endif %}
   </div>
 
