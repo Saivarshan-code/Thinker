@@ -17,3 +17,14 @@ class userprofile(models.Model):
 
     def get_absolute_url(self):
         return reverse("user:user_profile_page",kwargs={'username':self.user.username})
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if not hasattr(instance, 'userprofile'):
+            userprofile.objects.create(user=instance, std='College', is_verified=True)
+

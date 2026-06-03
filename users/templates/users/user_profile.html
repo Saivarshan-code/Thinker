@@ -13,7 +13,7 @@
 
   <div class="email">
     {% if username.showing_email == True %}
-      <h4>Email: {{ username.user.email }}</h4>
+      <h4>Email: {{ username.user.email|default:"(No email address provided)" }}</h4>
     {% endif %}
   </div>
 

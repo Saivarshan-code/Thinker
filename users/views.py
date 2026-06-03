@@ -76,7 +76,9 @@ def SignUp(request):
             user_obj.save()
             auth_token = str(uuid.uuid4())
 
-            profile_obj = userprofile.objects.create(user = user_obj,std=std,auth_token = auth_token)
+            profile_obj, created = userprofile.objects.get_or_create(user = user_obj)
+            profile_obj.std = std
+            profile_obj.auth_token = auth_token
             profile_obj.save()
             signed_up = True
             send_mail_after_registration(email,auth_token)
@@ -159,3 +161,11 @@ def userprofilepage(request,username):
 class Update_userprofile(UpdateView,LoginRequiredMixin):
     fields = ('std','description','showing_email')
     model = userprofile
+
+
+from django.contrib.auth import logout as auth_logout
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('user:loggingout')
+
